@@ -32,7 +32,7 @@ public class App
         create(student5);
         create(student6);
          getById(student);
-
+         DeleteAza("Aza");
 //        for (Student s :getAll()
 //             ) {
 //            System.out.println(s);
@@ -120,19 +120,19 @@ public class App
 
 
 
-    public  static  Student Update(String name ) {
-        Session session = HibernateUtil.getSession().openSession();
-        session.beginTransaction();
-        Student student = session.get(Student.class,name);
-        student.setAge(18);
-
-        Query query = session.createQuery("update Student student  set student.age=18  where student.name ='Aza' ");
-        query.executeUpdate();
-        session.getTransaction().commit();
-        session.close();
-        System.out.println("Updated");
-        return  student;
-    }
+//    public  static  Student Update(String name ) {
+//        Session session = HibernateUtil.getSession().openSession();
+//        session.beginTransaction();
+//        Student student = session.get(Student.class,name);
+//        student.setAge(18);
+//
+//        Query query = session.createQuery("update Student student  set student.age=18  where student.name ='Aza' ");
+//        query.executeUpdate();
+//        session.getTransaction().commit();
+//        session.close();
+//        System.out.println("Updated");
+//        return  student;
+//    }
 
 
 
@@ -141,13 +141,15 @@ public class App
         public  static void DeleteAza(String name ){
         Session session=HibernateUtil.getSession().openSession();
         session.beginTransaction();
-        Student student= session.get(Student.class,name );
-        session.delete(session);
+        List<Student>students =  session.createQuery("from Student").getResultList();
+            for (Student student : students) {
+                if(student.getName().equals(name)){
+                    session.delete(student);
+                }
+            }
         session.getTransaction().commit();
         session.close();
          System.out.println("Successfully deleted");
-
-
      }
 
 
